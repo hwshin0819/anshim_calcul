@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안심케어 수수료 계산기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .type-btn .icon {
+            font-size: 1.5rem;
+        }
+
+        .type-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .type-btn:hover:not(.active) {
+            background-color: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .input-section {
+            margin-bottom: 40px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background-color: white;
+        }
+
+        .helper-text {
+            display: block;
+            margin-top: 8px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .result-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0fe 100%);
+            border-radius: 20px;
+            border: 2px solid #e3f2fd;
+        }
+
+        .result-section h3 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        .result-item {
+            margin-bottom: 18px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .result-item strong {
+            color: #667eea;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .result-item.highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .result-item.highlight strong {
+            color: white;
+        }
+
+        #fee-result {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: inherit;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+        }
+
+        .version {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                padding-top: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .calculator {
+                padding: 30px 25px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .type-btn {
+                padding: 18px;
+            }
+            
+            input {
+                padding: 18px;
+            }
+            
+            .calculate-btn {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+            
+            .result-section {
+                padding: 25px 20px;
+            }
+            
+            #fee-result {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏡 안심케어 수수료 계산기</h1>
+        <p class="subtitle">부동산 중개수수료를 간편하게 계산하세요</p>
+        
+        <div class="calculator">
+            <div class="button-group">
+                <button id="sale-btn" class="type-btn active" onclick="selectType('sale')">
+                    <span class="icon">🏠</span>
+                    매매
+                </button>
+                <button id="rental-btn" class="type-btn" onclick="selectType('rental')">
+                    <span class="icon">🔑</span>
+                    임대차
+                </button>
+            </div>
+            
+            <div class="input-section">
+                <label id="input-label" for="amount">매매금액 (원)</label>
+                <input type="number" id="amount" placeholder="예: 350000000 (3억 5천만원)" min="0">
+                <small class="helper-text">숫자만 입력해주세요 (단위: 원)</small>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateFee()">
+                <span class="icon">💰</span>
+                수수료 계산하기
+            </button>
+            
+            <div class="result-section" id="result-section" style="display: none;">
+                <h3>📊 계산 결과</h3>
+                <div class="result-details">
+                    <div class="result-item">
+                        <strong>적용 구간:</strong> 
+                        <span id="bracket-info"></span>
+                    </div>
+                    <div class="result-item">
+                        <strong>계산 과정:</strong> 
+                        <span id="calculation-formula"></span>
+                    </div>
+                    <div class="result-item highlight">
+                        <strong>안심케어 수수료:</strong> 
+                        <span id="fee-result"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>💡 정확한 수수료 계산을 위해 최신 요율표를 적용했습니다</p>
+            <p class="version">v1.0.0 | 안심케어</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentType = 'sale';
+
+        // 매매 구간별 계산 테이블 - 안심케어 수수료 기준
+        const saleBrackets = [
+            { max: 50000000, base: 99000, rate: 0, description: '5천만원 미만', prevMax: 0 },
+            { max: 100000000, base: 99000, rate: 0.006, description: '5천만원 이상 ~ 1억 미만', prevMax: 50000000 },
+            { max: 200000000, base: 102000, rate: 0.025, description: '1억 이상 ~ 2억 미만', prevMax: 100000000 },
+            { max: 300000000, base: 127000, rate: 0.016, description: '2억 이상 ~ 3억 미만', prevMax: 200000000 },
+            { max: 400000000, base: 143000, rate: 0.020, description: '3억 이상 ~ 4억 미만', prevMax: 300000000 },
+            { max: 600000000, base: 163000, rate: 0.0205, description: '4억 이상 ~ 6억 미만', prevMax: 400000000 },
+            { max: 800000000, base: 204000, rate: 0.016, description: '6억 이상 ~ 8억 미만', prevMax: 600000000 },
+            { max: 1000000000, base: 236000, rate: 0.015, description: '8억 이상 ~ 10억 미만', prevMax: 800000000 },
+            { max: 1500000000, base: 266000, rate: 0.0166, description: '10억 이상 ~ 15억 미만', prevMax: 1000000000 },
+            { max: 2000000000, base: 349000, rate: 0.0182, description: '15억 이상 ~ 20억 미만', prevMax: 1500000000 },
+            { max: 2500000000, base: 440000, rate: 0.0182, description: '20억 이상 ~ 25억 미만', prevMax: 2000000000 },
+            { max: 3500000000, base: 531000, rate: 0.0182, description: '25억 이상 ~ 35억 미만', prevMax: 2500000000 },
+            { max: 4000000000, base: 713000, rate: 0.0182, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
+            { max: Infinity, base: 713000, rate: 0.0182, description: '40억 이상', prevMax: 4000000000 }
+        ];
+
+        // 임대차 구간별 계산 테이블 - 안심케어 수수료 기준
+        const rentalBrackets = [
+            { max: 30000000, base: 88000, rate: 0, description: '3천만원 미만', prevMax: 0 },
+            { max: 50000000, base: 88000, rate: 0.065, description: '3천만원 이상 ~ 5천만원 미만', prevMax: 30000000 },
+            { max: 100000000, base: 101000, rate: 0.064, description: '5천만원 이상 ~ 1억 미만', prevMax: 50000000 },
+            { max: 200000000, base: 133000, rate: 0.104, description: '1억 이상 ~ 2억 미만', prevMax: 100000000 },
+            { max: 300000000, base: 237000, rate: 0.087, description: '2억 이상 ~ 3억 미만', prevMax: 200000000 },
+            { max: 400000000, base: 324000, rate: 0.081, description: '3억 이상 ~ 4억 미만', prevMax: 300000000 },
+            { max: 600000000, base: 405000, rate: 0.067, description: '4억 이상 ~ 6억 미만', prevMax: 400000000 },
+            { max: 800000000, base: 539000, rate: 0.039, description: '6억 이상 ~ 8억 미만', prevMax: 600000000 },
+            { max: 1000000000, base: 617000, rate: 0.042, description: '8억 이상 ~ 10억 미만', prevMax: 800000000 },
+            { max: 1500000000, base: 701000, rate: 0.0666, description: '10억 이상 ~ 15억 미만', prevMax: 1000000000 },
+            { max: 2000000000, base: 1034000, rate: 0.069, description: '15억 이상 ~ 20억 미만', prevMax: 1500000000 },
+            { max: 2500000000, base: 1379000, rate: 0.0768, description: '20억 이상 ~ 25억 미만', prevMax: 2000000000 },
+            { max: 3500000000, base: 1763000, rate: 0.0805, description: '25억 이상 ~ 35억 미만', prevMax: 2500000000 },
+            { max: 4000000000, base: 2568000, rate: 0.0805, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
+            { max: Infinity, base: 2568000, rate: 0.0805, description: '40억 이상', prevMax: 4000000000 }
+        ];
+
+        function selectType(type) {
+            currentType = type;
+            
+            // 버튼 스타일 변경
+            document.getElementById('sale-btn').classList.toggle('active', type === 'sale');
+            document.getElementById('rental-btn').classList.toggle('active', type === 'rental');
+            
+            // 라벨 텍스트 변경
+            const label = document.getElementById('input-label');
+            const placeholder = document.getElementById('amount');
+            
+            if (type === 'sale') {
+                label.textContent = '매매금액 (원)';
+                placeholder.placeholder = '예: 350000000 (3억 5천만원)';
+            } else {
+                label.textContent = '임차보증금액 (원)';
+                placeholder.placeholder = '예: 350000000 (3억 5천만원)';
+            }
+            
+            // 결과 숨기기
+            document.getElementById('result-section').style.display = 'none';
+            
+            // 입력값 초기화
+            document.getElementById('amount').value = '';
+        }
+
+        function findBracket(amount, brackets) {
+            for (let bracket of brackets) {
+                if (amount <= bracket.max) {
+                    return bracket;
+                }
+            }
+            return brackets[brackets.length - 1]; // 최대 구간
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('ko-KR').format(Math.floor(num));
+        }
+
+        function formatAmount(amount) {
+            if (amount >= 100000000) {
+                return `${Math.floor(amount / 100000000)}억${amount % 100000000 === 0 ? '' : ' ' + formatNumber(amount % 100000000)}원`;
+            } else if (amount >= 10000000) {
+                return `${Math.floor(amount / 10000000)}천${amount % 10000000 === 0 ? '' : ' ' + formatNumber(amount % 10000000)}만원`;
+            } else if (amount >= 10000) {
+                return `${Math.floor(amount / 10000)}만${amount % 10000 === 0 ? '' : ' ' + formatNumber(amount % 10000)}원`;
+            } else {
+                return formatNumber(amount) + '원';
+            }
+        }
+
+        function calculateFee() {
+            const amountInput = document.getElementById('amount');
+            const amount = parseInt(amountInput.value);
+            
+            if (!amount || amount <= 0) {
+                alert('올바른 금액을 입력해주세요.');
+                amountInput.focus();
+                return;
+            }
+            
+            const brackets = currentType === 'sale' ? saleBrackets : rentalBrackets;
+            const bracket = findBracket(amount, brackets);
+            
+            // 초과분 계산
+            const excess = Math.max(0, amount - bracket.prevMax);
+            
+            // 수수료 계산
+            let fee = bracket.base;
+            if (bracket.rate > 0 && excess > 0) {
+                fee += excess * (bracket.rate / 100);
+            }
+            
+            // 반올림 처리 (매매: 1000원 단위, 임대차: 100원 단위)
+            const roundUnit = currentType === 'sale' ? 1000 : 100;
+            fee = Math.floor(fee / roundUnit) * roundUnit;
+            
+            // 계산식 생성
+            let formula = `${formatNumber(bracket.base)}원`;
+            if (bracket.rate > 0 && excess > 0) {
+                formula += ` + (${formatAmount(amount)} - ${formatAmount(bracket.prevMax)}) × ${bracket.rate}%`;
+            }
+            formula += ` = ${formatNumber(fee)}원`;
+            
+            // 결과 표시
+            document.getElementById('bracket-info').textContent = bracket.description;
+            document.getElementById('calculation-formula').textContent = formula;
+            document.getElementById('fee-result').textContent = formatNumber(fee) + '원';
+            document.getElementById('result-section').style.display = 'block';
+            
+            // 결과 영역으로 스크롤
+            document.getElementById('result-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        // 엔터키로 계산
+        document.getElementById('amount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateFee();
+            }
+        });
+
+        // 숫자 입력 검증
+        document.getElementById('amount').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value !== e.target.value) {
+                e.target.value = value;
+            }
+        });
+    </script>
+</body>
+</html>
