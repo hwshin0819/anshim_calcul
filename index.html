@@ -10,7 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -18,13 +17,11 @@
             padding: 20px;
             line-height: 1.6;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding-top: 30px;
         }
-
         h1 {
             text-align: center;
             color: white;
@@ -33,7 +30,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             font-weight: 700;
         }
-
         .subtitle {
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
@@ -41,13 +37,11 @@
             font-size: 1.1rem;
             font-weight: 300;
         }
-
         .main-content {
             display: flex;
             gap: 30px;
             align-items: flex-start;
         }
-
         .calculator {
             background: white;
             border-radius: 25px;
@@ -58,7 +52,6 @@
             flex: 1;
             min-width: 400px;
         }
-
         .result-panel {
             background: white;
             border-radius: 25px;
@@ -71,13 +64,11 @@
             position: sticky;
             top: 20px;
         }
-
         .button-group {
             display: flex;
             gap: 15px;
             margin-bottom: 40px;
         }
-
         .type-btn {
             flex: 1;
             padding: 20px;
@@ -94,27 +85,22 @@
             align-items: center;
             gap: 8px;
         }
-
         .type-btn .icon {
             font-size: 1.5rem;
         }
-
         .type-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-
         .type-btn:hover:not(.active) {
             background-color: #e9ecef;
             transform: translateY(-1px);
         }
-
         .input-section {
             margin-bottom: 30px;
         }
-
         label {
             display: block;
             margin-bottom: 12px;
@@ -122,13 +108,11 @@
             color: #333;
             font-size: 1.1rem;
         }
-
         .input-wrapper {
             position: relative;
             display: flex;
             align-items: center;
         }
-
         input[type="number"] {
             width: 100%;
             padding: 15px 100px 15px 15px;
@@ -138,7 +122,6 @@
             transition: all 0.3s ease;
             background-color: #fafafa;
         }
-
         .unit-label {
             position: absolute;
             right: 15px;
@@ -147,28 +130,24 @@
             pointer-events: none;
             font-size: 0.9rem;
         }
-
         input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
             background-color: white;
         }
-
         .helper-text {
             display: block;
             margin-top: 8px;
             color: #6c757d;
             font-size: 0.85rem;
         }
-
         .discount-section {
             background: #f8f9ff;
             padding: 20px;
             border-radius: 15px;
             border: 2px solid #e3f2fd;
         }
-
         .discount-section h4 {
             color: #333;
             margin-bottom: 15px;
@@ -177,7 +156,6 @@
             align-items: center;
             gap: 8px;
         }
-
         .calculate-btn {
             width: 100%;
             padding: 22px;
@@ -195,31 +173,25 @@
             gap: 12px;
             margin-top: 30px;
         }
-
         .calculate-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
         }
-
         .calculate-btn:active {
             transform: translateY(-1px);
         }
-
         .result-section {
             display: none;
         }
-
         .result-section.show {
             display: block;
         }
-
         .result-section h3 {
             color: #333;
             margin-bottom: 25px;
             font-size: 1.4rem;
             text-align: center;
         }
-
         .result-item {
             margin-bottom: 15px;
             padding: 15px;
@@ -227,7 +199,6 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
         .result-item strong {
             color: #667eea;
             font-weight: 600;
@@ -235,13 +206,10 @@
             margin-bottom: 5px;
             font-size: 0.95rem;
         }
-
         .result-item span {
             font-size: 1rem;
             color: #333;
         }
-
-        /* 소비자가만 특별히 강조 */
         .result-item.consumer-price {
             background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             color: white;
@@ -249,69 +217,56 @@
             border: 3px solid #ff8c42;
             box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
         }
-
         .result-item.consumer-price strong {
             color: white;
             font-size: 1.1rem;
         }
-
         .result-item.consumer-price span {
             color: white;
             font-size: 1.6rem;
             font-weight: 700;
         }
-
         .result-item.success {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
         }
-
         .result-item.success strong {
             color: white;
         }
-
         .result-item.success span {
             color: white;
         }
-
         .price-large {
             font-size: 1.2rem;
             font-weight: 700;
         }
-
         .price-small {
             font-size: 1rem;
             font-weight: 600;
         }
-
         .empty-state {
             text-align: center;
             color: #6c757d;
             font-style: italic;
             padding: 60px 20px;
         }
-
         .empty-state .icon {
             font-size: 3rem;
             margin-bottom: 20px;
             display: block;
         }
-
         .footer {
             text-align: center;
             margin-top: 40px;
             color: rgba(255, 255, 255, 0.8);
         }
-
         .footer p {
             margin-bottom: 8px;
         }
-
         .version {
             font-size: 0.9rem;
             opacity: 0.7;
         }
-
         @media (max-width: 1024px) {
             .main-content {
                 flex-direction: column;
@@ -323,7 +278,6 @@
                 order: 2;
             }
         }
-
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -367,11 +321,11 @@
             <div class="calculator">
                 <div class="button-group">
                     <button id="sale-btn" class="type-btn active" onclick="selectType('sale')">
-                        <span class="icon">🏠</span>
+                        <span class="icon">🦅</span>
                         매매
                     </button>
                     <button id="rental-btn" class="type-btn" onclick="selectType('rental')">
-                        <span class="icon">🔑</span>
+                        <span class="icon">🚗</span>
                         임대차
                     </button>
                 </div>
@@ -379,12 +333,11 @@
                 <div class="input-section">
                     <label id="input-label" for="amount">매매금액</label>
                     <div class="input-wrapper">
-                        <input type="number" id="amount" placeholder="예: 3666 (3억 6660만원)" min="0" step="1">
-                        <span class="unit-label">십만원</span>
+                        <input type="number" id="amount" placeholder="예: 35550 (3억 5천 5백 50만원)" min="0" step="1">
+                        <span class="unit-label">만원</span>
                     </div>
-                    <small class="helper-text">십만원 단위로 입력하세요 (3666 = 3억 6660만원)</small>
+                    <small class="helper-text">만원 단위로 입력하세요 (3억 5천 5백 50만원=35550 / 3억원=30000)</small>
                 </div>
-
                 <div class="input-section discount-section">
                     <h4>🎯 할인 설정</h4>
                     <label for="discount">할인율</label>
@@ -400,44 +353,44 @@
                     수수료 계산하기
                 </button>
             </div>
-
             <!-- 결과 패널 -->
             <div class="result-panel">
                 <div class="result-section" id="result-section">
                     <h3>📊 계산 결과</h3>
                     <div class="result-details">
                         <div class="result-item">
-                            <strong>🏡 입력 금액</strong> 
+                            <strong>🏡 입력 금액:</strong> 
                             <span id="input-amount" class="price-small"></span>
                         </div>
                         
+                        <!-- 소비자가를 가장 눈에 띄게 맨 위로 -->
                         <div class="result-item consumer-price">
-                            <strong>💰할인된 소비자가 (VAT 포함)</strong> 
+                            <strong>💰할인된 소비자가 (VAT 포함):</strong> 
                             <span id="vat-included-fee"></span>
                         </div>
                         
                         <div class="result-item success">
-                            <strong>💰할인된 실판매가 (VAT 별도)</strong> 
+                            <strong>💰할인된 실판매가 (VAT 별도):</strong> 
                             <span id="discounted-fee" class="price-large"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>정상 수수료 (VAT 별도)</strong> 
+                            <strong>정상 수수료 (VAT 별도):</strong> 
                             <span id="normal-fee" class="price-large"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>적용 구간</strong> 
+                            <strong>적용 구간:</strong> 
                             <span id="bracket-info"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>🧮 계산 과정</strong> 
+                            <strong>계산 과정:</strong> 
                             <span id="calculation-formula"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>🎯 적용 할인율</strong> 
+                            <strong>적용 할인율:</strong> 
                             <span id="applied-discount"></span>
                         </div>
                     </div>
@@ -454,14 +407,12 @@
         </div>
         
         <footer class="footer">
-            <p>오류나거나 안되면 혜원M에게 팀즈주세요</p>
-            <p class="version">v1.1.0 | 안심케어</p>
+            <p>안되면 혜원M 연락주세요</p>
+            <p class="version">v2.0 | 안심케어</p>
         </footer>
     </div>
-
     <script>
         let currentType = 'sale';
-
         // 매매 구간별 계산 테이블 - 안심케어 수수료 기준
         const saleBrackets = [
             { max: 50000000, base: 99000, rate: 0, description: '5천만원 미만', prevMax: 0 },
@@ -479,7 +430,6 @@
             { max: 4000000000, base: 713000, rate: 0.0182, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
             { max: Infinity, base: 713000, rate: 0.0182, description: '40억 이상', prevMax: 4000000000 }
         ];
-
         // 임대차 구간별 계산 테이블 - 안심케어 수수료 기준
         const rentalBrackets = [
             { max: 30000000, base: 88000, rate: 0, description: '3천만원 미만', prevMax: 0 },
@@ -498,7 +448,6 @@
             { max: 4000000000, base: 2568000, rate: 0.0805, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
             { max: Infinity, base: 2568000, rate: 0.0805, description: '40억 이상', prevMax: 4000000000 }
         ];
-
         function selectType(type) {
             currentType = type;
             
@@ -512,10 +461,10 @@
             
             if (type === 'sale') {
                 label.textContent = '매매금액';
-                placeholder.placeholder = '예: 3666 (3억 6660만원)';
+                placeholder.placeholder = '예: 35550 (3억 5천 5백 50만원)';
             } else {
                 label.textContent = '임차보증금액';
-                placeholder.placeholder = '예: 3666 (3억 6660만원)';
+                placeholder.placeholder = '예: 35550 (3억 5천 5백 50만원)';
             }
             
             // 결과 초기화
@@ -524,17 +473,14 @@
             // 입력값 초기화
             document.getElementById('amount').value = '';
         }
-
         function showResult() {
             document.getElementById('result-section').classList.add('show');
             document.getElementById('empty-state').style.display = 'none';
         }
-
         function hideResult() {
             document.getElementById('result-section').classList.remove('show');
             document.getElementById('empty-state').style.display = 'block';
         }
-
         function findBracket(amount, brackets) {
             for (let bracket of brackets) {
                 if (amount <= bracket.max) {
@@ -543,35 +489,45 @@
             }
             return brackets[brackets.length - 1]; // 최대 구간
         }
-
         function formatNumber(num) {
             return new Intl.NumberFormat('ko-KR').format(Math.floor(num));
         }
-
+        
+        // 만원 단위 정확한 표시를 위한 formatAmount 함수
         function formatAmount(amount) {
             if (amount >= 100000000) {
+                // 억 단위
                 const eok = Math.floor(amount / 100000000);
                 const remainder = amount % 100000000;
-                if (remainder === 0) {
-                    return `${eok}억원`;
-                } else if (remainder >= 10000000) {
-                    return `${eok}억 ${Math.floor(remainder / 10000000)}천만원`;
-                } else if (remainder >= 1000000) {
-                    return `${eok}억 ${Math.floor(remainder / 1000000)}백만원`;
+                
+                let result = `${eok}억`;
+                
+                if (remainder >= 10000) {
+                    const man = Math.floor(remainder / 10000);
+                    result += ` ${man}만원`;
+                } else if (remainder > 0) {
+                    result += ` ${formatNumber(remainder)}원`;
                 } else {
-                    return `${eok}억 ${formatNumber(remainder)}원`;
+                    result += '원';
                 }
-            } else if (remainder >= 10000000) {
-                return `${Math.floor(amount / 10000000)}천만원`;
-            } else if (amount >= 1000000) {
-                return `${Math.floor(amount / 1000000)}백만원`;
+                
+                return result;
             } else if (amount >= 10000) {
-                return `${Math.floor(amount / 10000)}만원`;
+                // 만원 단위
+                const man = Math.floor(amount / 10000);
+                const remainder = amount % 10000;
+                
+                if (remainder > 0) {
+                    return `${man}만 ${formatNumber(remainder)}원`;
+                } else {
+                    return `${man}만원`;
+                }
             } else {
+                // 만원 미만
                 return formatNumber(amount) + '원';
             }
         }
-
+        
         function calculateFee() {
             const amountInput = document.getElementById('amount');
             const discountInput = document.getElementById('discount');
@@ -590,8 +546,8 @@
                 return;
             }
             
-            // 십만원 단위를 원 단위로 변환 (3666 → 366,600,000)
-            const amount = inputValue * 100000;
+            // 만원 단위를 원 단위로 변환 (35550 → 355,500,000)
+            const amount = inputValue * 10000;
             
             const brackets = currentType === 'sale' ? saleBrackets : rentalBrackets;
             const bracket = findBracket(amount, brackets);
@@ -605,8 +561,8 @@
                 normalFee += excess * (bracket.rate / 100);
             }
             
-            // 반올림 처리 (매매: 1000원 단위, 임대차: 100원 단위)
-            const roundUnit = currentType === 'sale' ? 1000 : 100;
+            // 반올림 처리 (매매: 1000원 단위, 임대차: 1000원 단위)
+            const roundUnit = currentType === 'sale' ? 1000 : 1000;
             normalFee = Math.floor(normalFee / roundUnit) * roundUnit;
             
             // 할인된 수수료 계산 (천원단위 절사)
@@ -633,32 +589,27 @@
             
             showResult();
         }
-
         // 엔터키로 계산
         document.getElementById('amount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calculateFee();
             }
         });
-
         document.getElementById('discount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 calculateFee();
             }
         });
-
         // 숫자 입력 검증
         document.getElementById('amount').addEventListener('input', function(e) {
             const value = e.target.value.replace(/[^0-9]/g, '');
             e.target.value = value;
         });
-
         document.getElementById('discount').addEventListener('input', function(e) {
             let value = e.target.value.replace(/[^0-9]/g, '');
             if (value > 100) value = 100;
             e.target.value = value;
         });
-
         // 초기 상태 설정
         hideResult();
     </script>
