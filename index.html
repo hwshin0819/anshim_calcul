@@ -113,15 +113,6 @@
             display: flex;
             align-items: center;
         }
-        input[type="text"] {
-            width: 100%;
-            padding: 15px 100px 15px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: #fafafa;
-        }
         input[type="number"] {
             width: 100%;
             padding: 15px 100px 15px 15px;
@@ -343,10 +334,10 @@
                 <div class="input-section">
                     <label id="input-label" for="amount">매매금액</label>
                     <div class="input-wrapper">
-                        <input type="text" id="amount" placeholder="예: 35,550 (3억 5천 5백 50만원) " min="0" step="1">
+                        <input type="number" id="amount" placeholder="예: 35550 (3억 5천 5백 50만원)" min="0" step="1">
                         <span class="unit-label">만원</span>
                     </div>
-                    <small class="helper-text">만원 단위로 입력하세요 (3억 5천 5백 50만원 = 35,550)</small>
+                    <small class="helper-text">만원 단위로 입력하세요 (35550 = 3억 5천 5백 50만원)</small>
                 </div>
                 <div class="input-section discount-section">
                     <h4>🎯 할인 설정</h4>
@@ -369,38 +360,38 @@
                     <h3>📊 계산 결과</h3>
                     <div class="result-details">
                         <div class="result-item">
-                            <strong>🏡 입력 금액</strong> 
+                            <strong>🏡 입력 금액:</strong> 
                             <span id="input-amount" class="price-small"></span>
                         </div>
                         
                         <!-- 소비자가를 가장 눈에 띄게 맨 위로 -->
                         <div class="result-item consumer-price">
-                            <strong>💰할인된 소비자가 (VAT 포함)</strong> 
+                            <strong>💰할인된 소비자가 (VAT 포함):</strong> 
                             <span id="vat-included-fee"></span>
                         </div>
                         
                         <div class="result-item success">
-                            <strong>💰할인된 실판매가 (VAT 별도)</strong> 
+                            <strong>💰할인된 실판매가 (VAT 별도):</strong> 
                             <span id="discounted-fee" class="price-large"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>정상 수수료 (VAT 별도)</strong> 
+                            <strong>정상 수수료 (VAT 별도):</strong> 
                             <span id="normal-fee" class="price-large"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>적용 구간</strong> 
+                            <strong>적용 구간:</strong> 
                             <span id="bracket-info"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>계산 과정</strong> 
+                            <strong>계산 과정:</strong> 
                             <span id="calculation-formula"></span>
                         </div>
                         
                         <div class="result-item">
-                            <strong>적용 할인율</strong> 
+                            <strong>적용 할인율:</strong> 
                             <span id="applied-discount"></span>
                         </div>
                     </div>
@@ -410,4 +401,218 @@
                     <span class="icon">📱</span>
                     <div>
                         <h4>계산 대기 중</h4>
-                        <p>왼쪽에서 금액과 할인율을 입력하고<br>계산 버튼을 눌러주세요
+                        <p>왼쪽에서 금액과 할인율을 입력하고<br>계산 버튼을 눌러주세요</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>안되면 혜원M 연락주세요</p>
+            <p class="version">v2.0 | 안심케어 (만원 단위)</p>
+        </footer>
+    </div>
+    <script>
+        let currentType = 'sale';
+        // 매매 구간별 계산 테이블 - 안심케어 수수료 기준
+        const saleBrackets = [
+            { max: 50000000, base: 99000, rate: 0, description: '5천만원 미만', prevMax: 0 },
+            { max: 100000000, base: 99000, rate: 0.006, description: '5천만원 이상 ~ 1억 미만', prevMax: 50000000 },
+            { max: 200000000, base: 102000, rate: 0.025, description: '1억 이상 ~ 2억 미만', prevMax: 100000000 },
+            { max: 300000000, base: 127000, rate: 0.016, description: '2억 이상 ~ 3억 미만', prevMax: 200000000 },
+            { max: 400000000, base: 143000, rate: 0.020, description: '3억 이상 ~ 4억 미만', prevMax: 300000000 },
+            { max: 600000000, base: 163000, rate: 0.0205, description: '4억 이상 ~ 6억 미만', prevMax: 400000000 },
+            { max: 800000000, base: 204000, rate: 0.016, description: '6억 이상 ~ 8억 미만', prevMax: 600000000 },
+            { max: 1000000000, base: 236000, rate: 0.015, description: '8억 이상 ~ 10억 미만', prevMax: 800000000 },
+            { max: 1500000000, base: 266000, rate: 0.0166, description: '10억 이상 ~ 15억 미만', prevMax: 1000000000 },
+            { max: 2000000000, base: 349000, rate: 0.0182, description: '15억 이상 ~ 20억 미만', prevMax: 1500000000 },
+            { max: 2500000000, base: 440000, rate: 0.0182, description: '20억 이상 ~ 25억 미만', prevMax: 2000000000 },
+            { max: 3500000000, base: 531000, rate: 0.0182, description: '25억 이상 ~ 35억 미만', prevMax: 2500000000 },
+            { max: 4000000000, base: 713000, rate: 0.0182, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
+            { max: Infinity, base: 713000, rate: 0.0182, description: '40억 이상', prevMax: 4000000000 }
+        ];
+        // 임대차 구간별 계산 테이블 - 안심케어 수수료 기준
+        const rentalBrackets = [
+            { max: 30000000, base: 88000, rate: 0, description: '3천만원 미만', prevMax: 0 },
+            { max: 50000000, base: 88000, rate: 0.065, description: '3천만원 이상 ~ 5천만원 미만', prevMax: 30000000 },
+            { max: 100000000, base: 101000, rate: 0.064, description: '5천만원 이상 ~ 1억 미만', prevMax: 50000000 },
+            { max: 200000000, base: 133000, rate: 0.104, description: '1억 이상 ~ 2억 미만', prevMax: 100000000 },
+            { max: 300000000, base: 237000, rate: 0.087, description: '2억 이상 ~ 3억 미만', prevMax: 200000000 },
+            { max: 400000000, base: 324000, rate: 0.081, description: '3억 이상 ~ 4억 미만', prevMax: 300000000 },
+            { max: 600000000, base: 405000, rate: 0.067, description: '4억 이상 ~ 6억 미만', prevMax: 400000000 },
+            { max: 800000000, base: 539000, rate: 0.039, description: '6억 이상 ~ 8억 미만', prevMax: 600000000 },
+            { max: 1000000000, base: 617000, rate: 0.042, description: '8억 이상 ~ 10억 미만', prevMax: 800000000 },
+            { max: 1500000000, base: 701000, rate: 0.0666, description: '10억 이상 ~ 15억 미만', prevMax: 1000000000 },
+            { max: 2000000000, base: 1034000, rate: 0.069, description: '15억 이상 ~ 20억 미만', prevMax: 1500000000 },
+            { max: 2500000000, base: 1379000, rate: 0.0768, description: '20억 이상 ~ 25억 미만', prevMax: 2000000000 },
+            { max: 3500000000, base: 1763000, rate: 0.0805, description: '25억 이상 ~ 35억 미만', prevMax: 2500000000 },
+            { max: 4000000000, base: 2568000, rate: 0.0805, description: '35억 이상 ~ 40억 미만', prevMax: 3500000000 },
+            { max: Infinity, base: 2568000, rate: 0.0805, description: '40억 이상', prevMax: 4000000000 }
+        ];
+        function selectType(type) {
+            currentType = type;
+            
+            // 버튼 스타일 변경
+            document.getElementById('sale-btn').classList.toggle('active', type === 'sale');
+            document.getElementById('rental-btn').classList.toggle('active', type === 'rental');
+            
+            // 라벨 텍스트 변경
+            const label = document.getElementById('input-label');
+            const placeholder = document.getElementById('amount');
+            
+            if (type === 'sale') {
+                label.textContent = '매매금액';
+                placeholder.placeholder = '예: 35550 (3억 5천 5백 50만원)';
+            } else {
+                label.textContent = '임차보증금액';
+                placeholder.placeholder = '예: 35550 (3억 5천 5백 50만원)';
+            }
+            
+            // 결과 초기화
+            hideResult();
+            
+            // 입력값 초기화
+            document.getElementById('amount').value = '';
+        }
+        function showResult() {
+            document.getElementById('result-section').classList.add('show');
+            document.getElementById('empty-state').style.display = 'none';
+        }
+        function hideResult() {
+            document.getElementById('result-section').classList.remove('show');
+            document.getElementById('empty-state').style.display = 'block';
+        }
+        function findBracket(amount, brackets) {
+            for (let bracket of brackets) {
+                if (amount <= bracket.max) {
+                    return bracket;
+                }
+            }
+            return brackets[brackets.length - 1]; // 최대 구간
+        }
+        function formatNumber(num) {
+            return new Intl.NumberFormat('ko-KR').format(Math.floor(num));
+        }
+        
+        // 만원 단위 정확한 표시를 위한 formatAmount 함수
+        function formatAmount(amount) {
+            if (amount >= 100000000) {
+                // 억 단위
+                const eok = Math.floor(amount / 100000000);
+                const remainder = amount % 100000000;
+                
+                let result = `${eok}억`;
+                
+                if (remainder >= 10000) {
+                    const man = Math.floor(remainder / 10000);
+                    result += ` ${man}만원`;
+                } else if (remainder > 0) {
+                    result += ` ${formatNumber(remainder)}원`;
+                } else {
+                    result += '원';
+                }
+                
+                return result;
+            } else if (amount >= 10000) {
+                // 만원 단위
+                const man = Math.floor(amount / 10000);
+                const remainder = amount % 10000;
+                
+                if (remainder > 0) {
+                    return `${man}만 ${formatNumber(remainder)}원`;
+                } else {
+                    return `${man}만원`;
+                }
+            } else {
+                // 만원 미만
+                return formatNumber(amount) + '원';
+            }
+        }
+        
+        function calculateFee() {
+            const amountInput = document.getElementById('amount');
+            const discountInput = document.getElementById('discount');
+            const inputValue = parseInt(amountInput.value);
+            const discountRate = parseInt(discountInput.value);
+            
+            if (!inputValue || inputValue <= 0) {
+                alert('올바른 금액을 입력해주세요.');
+                amountInput.focus();
+                return;
+            }
+            
+            if (discountRate < 0 || discountRate > 100) {
+                alert('할인율은 0%~100% 범위에서 입력해주세요.');
+                discountInput.focus();
+                return;
+            }
+            
+            // 만원 단위를 원 단위로 변환 (35550 → 355,500,000)
+            const amount = inputValue * 10000;
+            
+            const brackets = currentType === 'sale' ? saleBrackets : rentalBrackets;
+            const bracket = findBracket(amount, brackets);
+            
+            // 초과분 계산
+            const excess = Math.max(0, amount - bracket.prevMax);
+            
+            // 정상 수수료 계산
+            let normalFee = bracket.base;
+            if (bracket.rate > 0 && excess > 0) {
+                normalFee += excess * (bracket.rate / 100);
+            }
+            
+            // 반올림 처리 (매매: 1000원 단위, 임대차: 1000원 단위)
+            const roundUnit = currentType === 'sale' ? 1000 : 1000;
+            normalFee = Math.floor(normalFee / roundUnit) * roundUnit;
+            
+            // 할인된 수수료 계산 (천원단위 절사)
+            const discountedFee = Math.floor((normalFee * (100 - discountRate) / 100) / 1000) * 1000;
+            
+            // VAT 포함 가격 계산
+            const vatIncludedFee = Math.floor(discountedFee * 1.1);
+            
+            // 계산식 생성
+            let formula = `${formatNumber(bracket.base)}원`;
+            if (bracket.rate > 0 && excess > 0) {
+                formula += ` + (${formatAmount(amount)} - ${formatAmount(bracket.prevMax)}) × ${bracket.rate}%`;
+            }
+            formula += ` = ${formatNumber(normalFee)}원`;
+            
+            // 결과 표시
+            document.getElementById('input-amount').textContent = formatAmount(amount);
+            document.getElementById('bracket-info').textContent = bracket.description;
+            document.getElementById('calculation-formula').textContent = formula;
+            document.getElementById('normal-fee').textContent = formatNumber(normalFee) + '원';
+            document.getElementById('applied-discount').textContent = discountRate + '%';
+            document.getElementById('discounted-fee').textContent = formatNumber(discountedFee) + '원';
+            document.getElementById('vat-included-fee').textContent = formatNumber(vatIncludedFee) + '원';
+            
+            showResult();
+        }
+        // 엔터키로 계산
+        document.getElementById('amount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateFee();
+            }
+        });
+        document.getElementById('discount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateFee();
+            }
+        });
+        // 숫자 입력 검증
+        document.getElementById('amount').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/[^0-9]/g, '');
+            e.target.value = value;
+        });
+        document.getElementById('discount').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value > 100) value = 100;
+            e.target.value = value;
+        });
+        // 초기 상태 설정
+        hideResult();
+    </script>
+</body>
+</html>
